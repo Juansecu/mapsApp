@@ -2,5 +2,6 @@ import { Marker } from 'mapbox-gl';
 
 export interface IMarker {
   color: string;
-  marker: Marker;
+  marker?: Marker;
+  lngLat?: [number, number];
 }
