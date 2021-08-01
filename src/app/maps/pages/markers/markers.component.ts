@@ -62,5 +62,7 @@ export class MarkersComponent implements AfterViewInit {
     });
   }
 
-  goToMarker(): void {}
+  goToMarker(marker: mapboxgl.Marker): void {
+    this.map.flyTo({ center: marker.getLngLat() });
+  }
 }
