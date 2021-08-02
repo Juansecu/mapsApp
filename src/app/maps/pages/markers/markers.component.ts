@@ -46,6 +46,8 @@ export class MarkersComponent implements AfterViewInit {
       style: 'mapbox://styles/mapbox/streets-v11',
       zoom: this.zoomLevel,
     });
+
+    this.getMarkers();
   }
 
   addMarker(): void {
@@ -60,9 +62,60 @@ export class MarkersComponent implements AfterViewInit {
       color,
       marker: newMarker,
     });
+
+    this.saveMarker();
+
+    newMarker.on('dragend', () => this.saveMarker());
+  }
+
+  getMarkers(): void {
+    if (!localStorage.getItem('markers')) return;
+
+    const localMarkers: IMarker[] = JSON.parse(
+      localStorage.getItem('markers')!
+    );
+
+    localMarkers.forEach((marker) => {
+      const newMarker = new mapboxgl.Marker({
+        color: marker.color,
+        draggable: true,
+      })
+        .setLngLat(marker.lngLat!)
+        .addTo(this.map);
+
+      this.markers.push({
+        color: marker.color,
+        marker: newMarker,
+      });
+
+      newMarker.on('dragend', () => this.saveMarker());
+    });
   }
 
   goToMarker(marker: mapboxgl.Marker): void {
     this.map.flyTo({ center: marker.getLngLat() });
+  }
+
+  removeMarker(event: MouseEvent, index: number): void {
+    event.preventDefault();
+    this.markers[index].marker?.remove();
+    this.markers.splice(index, 1);
+    this.saveMarker();
+  }
+
+  saveMarker(): void {
+    const markersToSave: IMarker[] = [];
+
+    this.markers.forEach((marker) => {
+      const color = marker.color;
+      const { lng, lat } = marker.marker!.getLngLat();
+
+      markersToSave.push({
+        color,
+        lngLat: [lng, lat],
+      });
+    });
+
+    localStorage.setItem('markers', JSON.stringify(markersToSave));
   }
 }

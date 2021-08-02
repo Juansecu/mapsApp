@@ -3,6 +3,7 @@
   <li
     *ngFor="let marker of markers; let i = index"
     (click)="goToMarker(marker.marker!)"
+    (contextmenu)="removeMarker($event, i)"
     [ngStyle]="{
       'background-color': marker.color
     }"
