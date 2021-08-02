@@ -5,7 +5,7 @@ import {
   OnDestroy,
   ViewChild,
 } from '@angular/core';
-import * as mapboxgl from 'mapbox-gl';
+import { Map } from 'mapbox-gl';
 
 @Component({
   selector: 'app-zoom-range',
@@ -41,7 +41,7 @@ export class ZoomRangeComponent implements AfterViewInit, OnDestroy {
   constructor() {}
 
   ngAfterViewInit(): void {
-    this.map = new mapboxgl.Map({
+    this.map = new Map({
       center: this.mapPosition,
       container: this.mapContainer.nativeElement,
       style: 'mapbox://styles/mapbox/streets-v11',

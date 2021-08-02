@@ -1,5 +1,5 @@
 import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
-import * as mapboxgl from 'mapbox-gl';
+import { Map, Marker } from 'mapbox-gl';
 
 import { IMarker } from '../../typings/Marker';
 
@@ -31,7 +31,7 @@ import { IMarker } from '../../typings/Marker';
 export class MarkersComponent implements AfterViewInit {
   @ViewChild('mapContainer') mapContainer!: ElementRef;
 
-  map!: mapboxgl.Map;
+  map!: Map;
 
   zoomLevel = 10;
   mapPosition: [number, number] = [-75.921029433568, 45.28719674822362];
@@ -40,7 +40,7 @@ export class MarkersComponent implements AfterViewInit {
   constructor() {}
 
   ngAfterViewInit(): void {
-    this.map = new mapboxgl.Map({
+    this.map = new Map({
       center: this.mapPosition,
       container: this.mapContainer.nativeElement,
       style: 'mapbox://styles/mapbox/streets-v11',
@@ -54,7 +54,7 @@ export class MarkersComponent implements AfterViewInit {
     const color = '#xxxxxx'.replace(/x/g, (y) =>
       ((Math.random() * 16) | 0).toString(16)
     );
-    const newMarker = new mapboxgl.Marker({ color, draggable: true })
+    const newMarker = new Marker({ color, draggable: true })
       .setLngLat(this.mapPosition)
       .addTo(this.map);
 
@@ -76,7 +76,7 @@ export class MarkersComponent implements AfterViewInit {
     );
 
     localMarkers.forEach((marker) => {
-      const newMarker = new mapboxgl.Marker({
+      const newMarker = new Marker({
         color: marker.color,
         draggable: true,
       })
@@ -92,7 +92,7 @@ export class MarkersComponent implements AfterViewInit {
     });
   }
 
-  goToMarker(marker: mapboxgl.Marker): void {
+  goToMarker(marker: Marker): void {
     this.map.flyTo({ center: marker.getLngLat() });
   }
 

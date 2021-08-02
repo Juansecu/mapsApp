@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 
-import { Route } from '../../typings/Route';
+import { IRoute } from '../../typings/Route';
 
 @Component({
   selector: 'app-menu',
@@ -8,7 +8,7 @@ import { Route } from '../../typings/Route';
   styles: [],
 })
 export class MenuComponent {
-  routes: Route[] = [
+  routes: IRoute[] = [
     {
       name: 'Full Screen',
       path: 'maps/fullscreen',
